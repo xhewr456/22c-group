@@ -4,7 +4,7 @@
 #include <string>
 #include <fstream>
 
-class pokemon
+class Pokemon
 {
 private:
 	std::string creatureName;
@@ -15,16 +15,16 @@ private:
 	int defense;
 public:
 	//Constructors
-	pokemon()
+	Pokemon()
 	{
-		creatureName = "default name";
+		creatureName = "unknown name";
 		serialNumber = 999;
 		elementalTypes = "unknown";
 		//type2 = "";
 		offense = 0;
 		defense = 0;
 	}
-	pokemon(std::string name, int idNumber, std::string emelents, int offenseNumber, int defenseNumber)
+	Pokemon(std::string name, int idNumber, std::string emelents, int offenseNumber, int defenseNumber)
 	{
 		creatureName = name;
 		serialNumber = idNumber;
@@ -77,31 +77,71 @@ public:
 	//{
 	//	type2 = x;
 	//}
-	int setOffenseStat(int offenseNumber)
+	void setOffenseStat(int offenseNumber)
 	{
 		offense = offenseNumber;
 	}
-	int setDefenseStat(int defenseNumber)
+	void setDefenseStat(int defenseNumber)
 	{
 		defense = defenseNumber;
 	}
 	//Overloading >> operator to read in data from file
-	friend std::ifstream& operator >>(std::ifstream& file, pokemon p)
+	friend std::ifstream& operator >> (std::ifstream &file, Pokemon &creature)
 	{
-		std::string tempStr;
-		getline(file, tempStr, '|');
-		p.serialNumber(std::stoi(tempStr));
-		getline(file, tempStr, '|');
-		p.creatureName(tempStr);
-		getline(file, tempStr, '|');
-		p.elementalTypes(tempStr);
+		std::string tempString;
+		int tempNumber;
+		getline(file, tempString, '|');
+		tempNumber = std::stoi(tempString);
+		creature.setSerialNumber(tempNumber);
+		getline(file, tempString, '|');
+		creature.setPokemonName(tempString);
+		getline(file, tempString, '|');
+		creature.setElementType(tempString);
 		//getline(file, tempStr, '|');
 		//p.setType2(tempStr);
-		getline(file, tempStr, '|');
-		p.offense(std::stoi(tempStr));
-		getline(file, tempStr, '\n');
-		p.defense(std::stoi(tempStr));
+		getline(file, tempString, '|');
+		creature.setOffenseStat(std::stoi(tempString));
+		getline(file, tempString, '\n');
+		creature.setDefenseStat(std::stoi(tempString));
 		return file;
+	}
+
+
+	//Overloading >> operator to read in data from file
+	friend std::ifstream& operator >> (std::ifstream &file, Pokemon *&creature)
+	{
+		std::string tempString;
+		int tempNumber;
+		getline(file, tempString, '|');
+		tempNumber = std::stoi(tempString);
+		creature->setSerialNumber(tempNumber);
+		getline(file, tempString, '|');
+		creature->setPokemonName(tempString);
+		getline(file, tempString, '|');
+		creature->setElementType(tempString);
+		//getline(file, tempStr, '|');
+		//p.setType2(tempStr);
+		getline(file, tempString, '|');
+		creature->setOffenseStat(std::stoi(tempString));
+		getline(file, tempString, '\n');
+		creature->setDefenseStat(std::stoi(tempString));
+		return file;
+	}
+
+
+
+
+	// overloaded out stream operator 
+	friend std::ostream &operator << (std::ostream &outStream, Pokemon &creature)
+	{
+		std::cout << creature.serialNumber << " " << creature.creatureName << " " << creature.elementalTypes;
+		return outStream;
+	}
+
+	friend std::ostream &operator << (std::ostream &outStream, Pokemon *&creature)
+	{
+		std::cout << creature->serialNumber << " " << creature->creatureName << " " << creature->elementalTypes;
+		return outStream;
 	}
 };
 #endif
