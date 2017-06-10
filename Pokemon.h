@@ -85,6 +85,14 @@ public:
 	{
 		defense = defenseNumber;
 	}
+	void setAll(int number, std::string name, std::string elements, int attack, int defend)
+	{
+		serialNumber = number;
+		creatureName = name;
+		elementalTypes = elements;
+		offense = attack;
+		defense = defend;
+	}
 	//Overloading >> operator to read in data from file
 	friend std::ifstream& operator >> (std::ifstream &file, Pokemon &creature)
 	{

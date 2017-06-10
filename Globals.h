@@ -4,6 +4,8 @@
 #include<iostream>
 
 const int ARRAY_SIZE = 26;
+
+
 int getMenuInput(int size)
 {
 	int userInput = 0;
@@ -29,10 +31,10 @@ int getIntegerInput()
 		{
 			hasAlphaChars = true;
 		}
-	while (hasAlphaChars || inputString == "\0")
+	while (hasAlphaChars || inputString == "\0" || inputString[0] == '-')
 	{
 		hasAlphaChars = false;
-		std::cout << "only numbers are valid, try again: ";
+		std::cout << "only postive numbers are valid, try again: ";
 		getline(std::cin, inputString);
 		for (unsigned int count = 0; count < (inputString.length()); count++)
 			if (isdigit(inputString[count]) == 0)

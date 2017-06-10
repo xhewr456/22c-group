@@ -8,13 +8,14 @@
 
 using namespace std;
 //Pokemon *getDataMemoryAddress(ifstream);
+int getIntegerInput();
 
 Pokemon *getDataMemoryAddress(ifstream &file)
 {
 	Pokemon *newPokemon = nullptr;
 	newPokemon = new Pokemon;
 	file >> newPokemon;
-	cout << newPokemon->getPokemonName() << endl;
+	//cout << newPokemon->getPokemonName() << endl;
 	return newPokemon;
 }
 
@@ -28,22 +29,25 @@ int main()
 
 	dataRecordsFile.open("PokeStats.txt");
 	LinkedList<Pokemon*> pokemonLinkedList;
+	Pokemon *tempPokemon = nullptr;
 	for (int count = 0; count < ARRAY_SIZE; count++)
 	{
-		pokemonLinkedList.push_end(getDataMemoryAddress(dataRecordsFile));
+		tempPokemon = getDataMemoryAddress(dataRecordsFile);
+		pokemonLinkedList.push_end(tempPokemon);
 	}
 	dataRecordsFile.close();
 
-	dataRecordsFile.open("PokeStats.txt");
-	Pokemon pokemonArray[ARRAY_SIZE];
-	for (int count = 0; count < ARRAY_SIZE; count++)
-	{
-		dataRecordsFile >> pokemonArray[count];
-	}
+	//dataRecordsFile.open("PokeStats.txt");
+	//Pokemon pokemonArray[ARRAY_SIZE];
+	//for (int count = 0; count < ARRAY_SIZE; count++)
+	//{
+	//	dataRecordsFile >> pokemonArray[count];
+	//}
 
 	int choice = 0;
 	while (choice != 9)
 	{
+		system("cls");
 		cout << "1: add new data\n";
 		cout << "2: remove data\n";
 		cout << "3: find and display data\n";
@@ -64,13 +68,33 @@ int main()
 			// both the hash table and binary search tree need add functions
 			// use this case to call those add functions
 			// leo and alex will make the add functions in the their class files
+
+
+			int creatureIndexNumber;
+			string name;
+			string elements;
+			int offense;
+			int defense;
+
 			system("cls");
 			cout << "this is the add data choice\n";
-			for (int count = 0; count < ARRAY_SIZE; count++)
-			{
-				cout << pokemonArray[count].getPokemonName() << endl;
-			}
-			choice = 9;
+			cout << "enter in creature number: ";
+			creatureIndexNumber = getIntegerInput();
+			cout << "enter in creature name: ";
+			getline(cin, name);
+			cout << "enter in creature elements: ";
+			getline(cin, elements);
+			cout << "enter in creature offense: ";
+			offense = getIntegerInput();
+			cout << "enter in creature defense: ";
+			defense = getIntegerInput();
+			Pokemon *newPokemon = nullptr;
+			newPokemon = new Pokemon(name, creatureIndexNumber, elements, offense, defense);
+			//newPokemon->setAll(creatureIndex, name, elements, offense, defense);
+			pokemonLinkedList.push_end(newPokemon);
+			//choice = 9;
+			cout << "\npress <Enter> to return to main menu...";
+			cin.get();
 			break;
 		}
 		case 2:
@@ -82,7 +106,9 @@ int main()
 			system("cls");
 			cout << "this is the remove data choice\n";
 			pokemonLinkedList.displayList();
-			choice = 9;
+			//choice = 9;
+			cout << "\npress <Enter> to return to main menu...";
+			cin.get();
 			break;
 		}
 		case 3:
