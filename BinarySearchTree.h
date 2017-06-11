@@ -50,10 +50,10 @@ private:
 protected:
 	//  add nodes to the tree using a binary search traversal, and is called by addNode() function
 	//  this function is access protected from anything outside the class for safety
-	DualLinkDataNode<T> *addInOrder(DualLinkDataNode<T> *subTreePtr, DualLinkDataNode<T> *newNode)
+	DualLinkDataNode<T> *addInOrder(DualLinkDataNode<T> *currentSubTree, DualLinkDataNode<T> *newNode)
 	{
 		// if the current sub-tree is empty, return the address of the new node
-		if (subTreePtr == nullptr)
+		if (currentSubTree == nullptr)
 		{
 			return newNode;
 		}
@@ -61,17 +61,17 @@ protected:
 		else
 		{
 			// if the sub-tree's data is greater than or equal to new node's data, send new node down the left branch
-			if (newNode->data <= subTreePtr->data)
+			if (*currentSubTree->data >= *newNode->data)
 			{
-				subTreePtr->leftBranch = addInOrder(subTreePtr->leftBranch, newNode);
+				currentSubTree->leftBranch = addInOrder(currentSubTree->leftBranch, newNode);
 			}
 
 			else
 			{
-				subTreePtr->rightBranch = addInOrder(subTreePtr->rightBranch, newNode);
+				currentSubTree->rightBranch = addInOrder(currentSubTree->rightBranch, newNode);
 			}
 
-			return subTreePtr;
+			return currentSubTree;
 		}
 	}
 
@@ -181,7 +181,7 @@ protected:
 
 	//  Search the tree for the given value using recursion.  If the value is found update the boolean to true
 	//  Else set the passed boolean to false
-	DualLinkDataNode<T> *searchTree(const T findThis, DualLinkDataNode<T> *root, bool &successBoolean)
+	DualLinkDataNode<T> *searchTree(const T &findThis, DualLinkDataNode<T> *root, bool &successBoolean)
 	{
 		// if the value was not found, return false
 		if (root == nullptr)
@@ -335,6 +335,69 @@ public:
 		}
 		return status;
 	}
+
+
+
+
+
+	bool searchForValue(const int &pokedexNumber)
+	{
+		bool status;
+
+		if (!rootNode)
+		{
+			return false;
+		}
+		else if (*rootNode->data == pokedexNumber)
+		{
+			return true;
+		}
+		// if the search value is less than or equal to the data in rootNode, travel down the left branch
+		else if (*rootNode->data > pokedexNumber)
+		{
+			//return searchTree(value, rootNode->leftBranch);
+			searchTree(pokedexNumber, rootNode->leftBranch, status);
+
+		}
+		// else, travel down the right branch
+		else
+		{
+			//return searchTree(value, rootNode->rightBranch);
+			searchTree(pokedexNumber, rootNode->rightBranch, status);
+		}
+		return status;
+	}
+
+	DualLinkDataNode<T> *searchTree(const int &findThis, DualLinkDataNode<T> *root, bool &successBoolean)
+	{
+		// if the value was not found, return false
+		if (root == nullptr)
+		{
+			successBoolean = false;
+			return nullptr;
+		}
+		// if the value is found, return true and unwind the recursion
+		else if (*root->data == findThis)
+		{
+			successBoolean = true;
+			return root;
+		}
+		// if the search value is less than or equal to the data stored in the node, use recursion to travel down the left branch
+		else if (*root->data > findThis)
+		{
+			//return searchTree(value, root->leftBranch);
+			return searchTree(findThis, root->leftBranch, successBoolean);
+		}
+		// else travel down the right branch
+		else
+		{
+			//return searchTree(findThis, root->rightBranch);
+			return searchTree(findThis, root->rightBranch, successBoolean);
+		}
+	}
+
+
+
 
 	//  The public function to modify a value in the tree
 	//  this is a two step process, first step is search for the value

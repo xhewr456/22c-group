@@ -1,23 +1,30 @@
 #include<iostream>
 #include<string>
 #include<fstream>
+#include<memory>
 #include"Globals.h"
 #include"Scanner.h"
 #include"Pokemon.h"
 #include"LinkedList.h"
 #include"BinarySearchTree.h"
+#include"HashTable.h"
 
 using namespace std;
 //Pokemon *getDataMemoryAddress(ifstream);
 int getIntegerInput();
 
 Pokemon *getDataMemoryAddress(ifstream &file)
+//unique_ptr<Pokemon> getDataMemoryAddress(ifstream &file)
 {
 	Pokemon *newPokemon = nullptr;
 	newPokemon = new Pokemon;
 	file >> newPokemon;
 	//cout << newPokemon->getPokemonName() << endl;
 	return newPokemon;
+
+	//unique_ptr<Pokemon> ptr(new Pokemon);
+	//file >> ptr;
+	//return ptr;
 }
 
 
@@ -27,15 +34,21 @@ int main()
 	// none of this is set in stone, but for now gives us something to work on
 	// if you need to work on some file, just tag it with a "-A" or "-L" or "-H" and upload the file
 	ifstream dataRecordsFile;
-	BinarySearchTree<Pokemon*> pokemonBST;
 	dataRecordsFile.open("PokeStats.txt");
+
+
+	BinarySearchTree<Pokemon*> pokemonBST;
 	LinkedList<Pokemon*> pokemonLinkedList;
+	HashTable<Pokemon*> pokemonHashedTable(ARRAY_SIZE);
+
+
 	Pokemon *tempPokemon = nullptr;
 	for (int count = 0; count < ARRAY_SIZE; count++)
 	{
 		tempPokemon = getDataMemoryAddress(dataRecordsFile);
 		pokemonLinkedList.push_end(tempPokemon);
 		pokemonBST.addValue(tempPokemon);
+		pokemonHashedTable.add(tempPokemon);
 	}
 	dataRecordsFile.close();
 
@@ -51,6 +64,7 @@ int main()
 	string elements;
 	int offense;
 	int defense;
+	bool status;
 
 	int choice = 0;
 	while (choice != 9)
@@ -110,7 +124,7 @@ int main()
 			// leo and alex will make the remove functions in the their class files
 			system("cls");
 			cout << "this is the remove data choice\n";
-			//choice = 9;
+			pokemonHashedTable.coutHashedTable();
 			cout << "\npress <Enter> to return to main menu...";
 			cin.get();
 			break;
@@ -125,6 +139,20 @@ int main()
 			cout << "enter in creature number to search for: ";
 			creatureIndexNumber = getIntegerInput();
 			// send the number to the binary search tree module and print out the results of the search
+			Pokemon *tempPokemon = nullptr;
+			tempPokemon = new Pokemon;
+			tempPokemon->setSerialNumber(creatureIndexNumber);
+			//status = pokemonBST.searchForValue(tempPokemon);
+			status = pokemonBST.searchForValue(creatureIndexNumber);
+			//status = true;
+			if (status == true)
+			{
+				cout << "creature number: " << creatureIndexNumber << " has been found\n";
+			}
+			else
+			{
+				cout << "creature number: " << creatureIndexNumber << " was NOT been found\n";
+			}
 			cout << "\npress <Enter> to return to main menu...";
 			cin.get();
 
