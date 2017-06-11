@@ -7,9 +7,9 @@
 class Pokemon
 {
 private:
-	std::string creatureName;
+	std::string pokemonName;
 	int serialNumber;
-	std::string elementalTypes;
+	std::string elementalType;
 	//std::string type2;
 	int offense;
 	int defense;
@@ -17,18 +17,18 @@ public:
 	//Constructors
 	Pokemon()
 	{
-		creatureName = "unknown name";
+		pokemonName = "unknown name";
 		serialNumber = 999;
-		elementalTypes = "unknown";
+		elementalType = "unknown";
 		//type2 = "";
 		offense = 0;
 		defense = 0;
 	}
 	Pokemon(std::string name, int idNumber, std::string emelents, int offenseNumber, int defenseNumber)
 	{
-		creatureName = name;
+		pokemonName = name;
 		serialNumber = idNumber;
-		elementalTypes = emelents;
+		elementalType = emelents;
 		//type2 = "";
 		offense = offenseNumber;
 		defense = defenseNumber;
@@ -37,7 +37,7 @@ public:
 	//getters
 	std::string getPokemonName()
 	{
-		return creatureName;
+		return pokemonName;
 	}
 	int getSerialNumber()
 	{
@@ -45,7 +45,7 @@ public:
 	}
 	std::string getElementalType()
 	{
-		return elementalTypes;
+		return elementalType;
 	}
 	//std::string getType2()
 	//{
@@ -63,15 +63,15 @@ public:
 	//setters
 	void setPokemonName(std::string name)
 	{
-		creatureName = name;
+		pokemonName = name;
 	}
 	void setSerialNumber(int idNumber)
 	{
 		serialNumber = idNumber;
 	}
-	void setElementType(std::string elements)
+	void setElementType(std::string element)
 	{
-		elementalTypes = elements;
+		elementalType = element;
 	}
 	//void setType2(std::string x)
 	//{
@@ -85,11 +85,11 @@ public:
 	{
 		defense = defenseNumber;
 	}
-	void setAll(int number, std::string name, std::string elements, int attack, int defend)
+	void setAll(std::string name, int number, std::string element, int attack, int defend)
 	{
+		pokemonName = name;
 		serialNumber = number;
-		creatureName = name;
-		elementalTypes = elements;
+		elementalType = element;
 		offense = attack;
 		defense = defend;
 	}
@@ -115,7 +115,7 @@ public:
 	}
 
 
-	//Overloading >> operator to read in data from file
+	//  Overload the instream pointer operator
 	friend std::ifstream& operator >> (std::ifstream &file, Pokemon *&creature)
 	{
 		std::string tempString;
@@ -138,18 +138,38 @@ public:
 
 
 
-
 	// overloaded out stream operator 
 	friend std::ostream &operator << (std::ostream &outStream, Pokemon &creature)
 	{
-		std::cout << creature.serialNumber << " " << creature.creatureName << " " << creature.elementalTypes;
+		std::cout << creature.serialNumber << " " << creature.pokemonName << " " << creature.elementalType;
 		return outStream;
 	}
 
+	//  Overload the outstream pointer operator
 	friend std::ostream &operator << (std::ostream &outStream, Pokemon *&creature)
 	{
-		std::cout << creature->serialNumber << " " << creature->creatureName << " " << creature->elementalTypes;
+		std::cout << creature->serialNumber << " " << creature->pokemonName << " " << creature->elementalType;
 		return outStream;
 	}
+
+	// Overloaded <= pointer operation
+	bool operator<=( const Pokemon *&rightSide)
+	{
+		bool status;
+		if (this->serialNumber == rightSide->serialNumber)
+		{
+			status = true;
+		}
+		else if (this->serialNumber < rightSide->serialNumber)
+		{
+			status = true;
+		}
+		else
+		{
+			status = false;
+		}
+		return status;
+	}
+
 };
 #endif

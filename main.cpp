@@ -5,6 +5,7 @@
 #include"Scanner.h"
 #include"Pokemon.h"
 #include"LinkedList.h"
+#include"BinarySearchTree.h"
 
 using namespace std;
 //Pokemon *getDataMemoryAddress(ifstream);
@@ -26,7 +27,7 @@ int main()
 	// none of this is set in stone, but for now gives us something to work on
 	// if you need to work on some file, just tag it with a "-A" or "-L" or "-H" and upload the file
 	ifstream dataRecordsFile;
-
+	BinarySearchTree<Pokemon*> pokemonBST;
 	dataRecordsFile.open("PokeStats.txt");
 	LinkedList<Pokemon*> pokemonLinkedList;
 	Pokemon *tempPokemon = nullptr;
@@ -34,6 +35,7 @@ int main()
 	{
 		tempPokemon = getDataMemoryAddress(dataRecordsFile);
 		pokemonLinkedList.push_end(tempPokemon);
+		pokemonBST.addValue(tempPokemon);
 	}
 	dataRecordsFile.close();
 
@@ -43,6 +45,12 @@ int main()
 	//{
 	//	dataRecordsFile >> pokemonArray[count];
 	//}
+
+	int creatureIndexNumber;
+	string name;
+	string elements;
+	int offense;
+	int defense;
 
 	int choice = 0;
 	while (choice != 9)
@@ -70,11 +78,7 @@ int main()
 			// leo and alex will make the add functions in the their class files
 
 
-			int creatureIndexNumber;
-			string name;
-			string elements;
-			int offense;
-			int defense;
+
 
 			system("cls");
 			cout << "this is the add data choice\n";
@@ -92,6 +96,7 @@ int main()
 			newPokemon = new Pokemon(name, creatureIndexNumber, elements, offense, defense);
 			//newPokemon->setAll(creatureIndex, name, elements, offense, defense);
 			pokemonLinkedList.push_end(newPokemon);
+			pokemonBST.addValue(newPokemon);
 			//choice = 9;
 			cout << "\npress <Enter> to return to main menu...";
 			cin.get();
@@ -105,7 +110,6 @@ int main()
 			// leo and alex will make the remove functions in the their class files
 			system("cls");
 			cout << "this is the remove data choice\n";
-			pokemonLinkedList.displayList();
 			//choice = 9;
 			cout << "\npress <Enter> to return to main menu...";
 			cin.get();
@@ -117,7 +121,13 @@ int main()
 			// this function will use the binary search tree to find and display the creature based on the number entered
 			// clifford will write this function
 			cout << "this is the find and display data choice\n";
-			choice = 9;
+
+			cout << "enter in creature number to search for: ";
+			creatureIndexNumber = getIntegerInput();
+			// send the number to the binary search tree module and print out the results of the search
+			cout << "\npress <Enter> to return to main menu...";
+			cin.get();
+
 			break;
 		}
 		case 4:
@@ -125,8 +135,15 @@ int main()
 			// call to list data in hash table
 			// list all the data stored in the hashed table based on the order in the array
 			// leo will write this function
+			system("cls");
 			cout << "this is the list data in hash table choice\n";
-			choice = 9;
+
+
+			pokemonLinkedList.displayList();
+			cout << "\npress <Enter> to return to main menu...";
+			cin.get();
+
+
 			break;
 		}
 		case 5:
@@ -136,14 +153,18 @@ int main()
 			// I think you can use either the hashed table or the binary search tree for the data
 			// but lets go with the hashed table for now
 			// leo will work on this
+			system("cls");
 			cout << "this is the list data in key sequence (sorted) choice\n";
-			choice = 9;
+			pokemonBST.printBreadthFirstTraverse();
+			cout << "\npress <Enter> to return to main menu...";
+			cin.get();
 			break;
 		}
 		case 6:
 		{
 			// call to print indented tree function
 			// cout the binary tree horizontally, alex and hammud will collaborate as needed on this
+			//system("cls");
 			cout << "this is the printed indented tree choice\n";
 			choice = 9;
 			break;
@@ -166,7 +187,7 @@ int main()
 			// it will only display one creature for now, and in the future it may display a random pokemon
 			cout << "this is the scanner choice\n";
 			startScanner();
-			choice = 9;
+			//choice = 9;
 			break;
 		}
 		case 9:
