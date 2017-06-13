@@ -51,7 +51,7 @@ void displayPicture()
 		BCX_Bitmap("testbitmap.bmp", hConWnd, 123, 1, 1, 0, 0);
 
 		getchar();  // wait
-					//DestroyWindow(hConWnd);
+		//DestroyWindow(hConWnd);
 	}
 }
 // draw the bitmap

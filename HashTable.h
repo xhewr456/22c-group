@@ -1,9 +1,13 @@
+//#define _CRT_SECURE_NO_WARNINGS
 #ifndef _HASHTABLE_H
 #define _HASHTABLE_H
 
+
 //#include "Node.h"
 #include <fstream>
+#include<iostream>
 //#include"Pokemon.h"
+//class Pokemon;
 
 /*
 Hashtable
@@ -33,7 +37,11 @@ private:
 
 	int hash(T data) // Temporary hash/key function
 	{
-		return (((data * data) + 1) % arrayLength);
+		int number;
+		number = static_cast<int>(*data);
+		number = (number - 1);
+		return number;
+		//return (((data * data) + 1) % arrayLength);
 	}
 
 public:
@@ -54,7 +62,7 @@ public:
 
 	void coutHashedTable()
 	{
-		for (int count = 0; count < (arrayLength - 1); count++)
+		for (int count = 0; count < (arrayLength-1); count++)
 		{
 			cout << hashedTableArray[count] << endl;
 		}
@@ -65,11 +73,21 @@ public:
 	void add(T data)
 	{
 		int hashHolder; //basically holds index after hash function
+		hashHolder = hash(data); // Call hash function (see hash)
+		//hashHolder = counter;
+		hashedTableArray[hashHolder] = data; // insert data to appropriate location.
+		//counter++;
+	}
+
+	void add(T data, int serialNumber)
+	{
+		int hashHolder; //basically holds index after hash function
 		//hashHolder = hash(data); // Call hash function (see hash)
 		hashHolder = counter;
 		hashedTableArray[hashHolder] = data; // insert data to appropriate location.
 		counter++;
 	}
+
 
 	bool removebyData(T data) //Searches for data. If found, remove. Else, nothing.
 	{

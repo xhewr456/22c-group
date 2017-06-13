@@ -291,7 +291,7 @@ public:
 	{
 		bool status;  // store the result of the remove node recursion
 
-					  //  if the tree has no items, print out the error message
+		//  if the tree has no items, print out the error message
 		if (!rootNode)
 		{
 			std::cout << "error: the tree has no items";
@@ -435,7 +435,7 @@ public:
 
 
 
-	//  breadth - first traversal mechanism - PRINTS TO FILE
+	//  - first traversal mechanism - PRINTS TO FILE
 	void printBreadthFirstTraverse()
 	{
 		if (rootNode == nullptr)
@@ -457,7 +457,7 @@ public:
 			coutBreadth_firstTraversal(nodePtr->leftBranch);
 			cout << nodePtr->data << endl;
 			coutBreadth_firstTraversal(nodePtr->rightBranch);
-			
+
 		}
 	}
 

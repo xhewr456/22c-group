@@ -311,10 +311,12 @@ public:
 		return status;
 	}
 
-	//int operator = (const int &rightSide)
-	//{
-	//	return this->serialNumber;
-	//}
+	operator int()
+	{
+		int number;
+		number = this->getSerialNumber();
+		return number;
+	}
 
 	//int operator - (const int&number)
 	//{
