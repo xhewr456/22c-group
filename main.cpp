@@ -40,14 +40,12 @@ int main()
 	BinarySearchTree<Pokemon*> pokemonBST;
 	LinkedList<Pokemon*> pokemonLinkedList;
 	HashTable<Pokemon*> pokemonHashedTable(ARRAY_SIZE);
-	int serial;
+
 
 	Pokemon *tempPokemon = nullptr;
 	for (int count = 0; count < ARRAY_SIZE; count++)
 	{
 		tempPokemon = getDataMemoryAddress(dataRecordsFile);
-		serial = tempPokemon->getSerialNumber();
-		serial = *tempPokemon;
 		pokemonLinkedList.push_end(tempPokemon);
 		pokemonBST.addValue(tempPokemon);
 		pokemonHashedTable.add(tempPokemon);
@@ -194,9 +192,12 @@ int main()
 		{
 			// call to print indented tree function
 			// cout the binary tree horizontally, alex and hammud will collaborate as needed on this
-			//system("cls");
+			system("cls");
 			cout << "this is the printed indented tree choice\n";
-			choice = 9;
+			pokemonBST.callPrintIndentedTree();
+			cout << "\npress <Enter> to return to main menu...";
+			cin.get();
+			//choice = 9;
 			break;
 		}
 		case 7:

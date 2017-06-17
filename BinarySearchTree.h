@@ -8,6 +8,7 @@ bool searchForValue(T value)								- find node in tree
 void searchAndModify(T findThis)							- find and replace node value in tree *will change tree structure*
 bool deleteValue(T value)									- delete node from tree *will change tree structure*
 void addValue(T value)										- add node to tree *if data values are the same, the root will be saved to the left*
+int findDepth(){						- return an integer containing the depth
 */
 
 #ifndef BINARYSEARCHTREE_H
@@ -228,6 +229,22 @@ protected:
 		}
 	}
 
+	//this is the recursive function called when calculating the depth of tree
+	int findDepth(DualLinkDataNode<T> *currentRoot, int level)
+	{
+		// if the currentRoot is null, that means this branch's patch is at the end
+		int templevel1;
+		int templevel2;
+		if (currentRoot == nullptr) return level;
+		level++;
+		templevel1 = findDepth(currentRoot->leftBranch, level); // check the left branch for a valid path
+		templevel2 = findDepth(currentRoot->rightBranch, level); // check the right branch for a valid path
+		if (templevel1 > templevel2)
+			templevel2 = templevel1;
+		level = templevel2;
+		return level;
+	}
+
 	//  Use a post order traverse to get to the bottom of the tree,
 	//  then delete the node and use recursion to work back up the tree
 	//  the function is protected from anything outside of the class
@@ -291,7 +308,7 @@ public:
 	{
 		bool status;  // store the result of the remove node recursion
 
-		//  if the tree has no items, print out the error message
+					  //  if the tree has no items, print out the error message
 		if (!rootNode)
 		{
 			std::cout << "error: the tree has no items";
@@ -472,6 +489,78 @@ public:
 		{
 			//post_orderTraversal(rootNode, writeFile);
 		}
+	}
+
+	//public function which can be called in main to return an integer containning the depth
+	int findDepth()
+	{
+		int level = 0;
+		if (!rootNode)
+		{
+			return level;
+		}
+		else
+		{
+			findDepth(rootNode, level);
+		}
+	}
+	//function that uses comparison of data to find the depth of an item in the tree
+	int getHeight(DualLinkDataNode<T>*find)
+	{
+		//Validate that pointer is not null and exists in tree;
+		if (find == nullptr || this->searchForValue(find->data) == false)
+		{
+			return -1;
+		}
+		else
+		{
+			//Create return counter
+			int result = 0;
+			//Create poiner to iterate with
+			DualLinkDataNode<T>* iter = rootNode;
+			//Iterate till data is matched
+			while (iter->data != find->data)
+			{
+				//Based on comparisons determine which branch to follow
+				if (find->data > iter->data)
+				{
+					iter = iter->rightBranch;
+				}
+				else
+				{
+					iter = iter->rightBranch;
+				}
+				//Increment depth counter
+				result++;
+			}
+			//Return value
+			return result;
+		}
+	}
+
+	//Untested Indent Print I need to test if I incremented correnctly as well as view the output.
+	void printIndented(DualLinkDataNode<T>*start)
+	{
+		//Verify not null
+		if (start != nullptr)
+		{
+			//Call function on itself till we get to rightmost branch
+			printIndented(start->rightBranch);
+			//Print out number of tabs corresponding to depth of the object
+			//(May change it so it prints out an arrow if we have time)
+			for (int x = 0; x <getHeight(start); x++)
+			{
+				std::cout << "\t";
+			}
+			//Print out data (Verify ostream operator in Pokemon class to make sure out puts work)
+			std::cout << start->data << std::endl;
+			//Call function on left branch till tree is completed
+			printIndented(start->leftBranch);
+		}
+	}
+	void callPrintIndentedTree()
+	{
+		printIndented(rootNode);
 	}
 };
 

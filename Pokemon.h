@@ -114,26 +114,26 @@ public:
 		return file;
 	}
 
-	// overload unique ptr input stream operator
-	friend std::ifstream& operator >> (std::ifstream &file, std::unique_ptr<Pokemon, std::default_delete<Pokemon>> &creature)
-	{
-		std::string tempString;
-		int tempNumber;
-		getline(file, tempString, '|');
-		tempNumber = std::stoi(tempString);
-		creature->setSerialNumber(tempNumber);
-		getline(file, tempString, '|');
-		creature->setPokemonName(tempString);
-		getline(file, tempString, '|');
-		creature->setElementType(tempString);
-		//getline(file, tempStr, '|');
-		//p.setType2(tempStr);
-		getline(file, tempString, '|');
-		creature->setOffenseStat(std::stoi(tempString));
-		getline(file, tempString, '\n');
-		creature->setDefenseStat(std::stoi(tempString));
-		return file;
-	}
+	//// overload unique ptr input stream operator
+	//friend std::ifstream& operator >> (std::ifstream &file, std::unique_ptr<Pokemon, std::default_delete<Pokemon>> &creature)
+	//{
+	//	std::string tempString;
+	//	int tempNumber;
+	//	getline(file, tempString, '|');
+	//	tempNumber = std::stoi(tempString);
+	//	creature->setSerialNumber(tempNumber);
+	//	getline(file, tempString, '|');
+	//	creature->setPokemonName(tempString);
+	//	getline(file, tempString, '|');
+	//	creature->setElementType(tempString);
+	//	//getline(file, tempStr, '|');
+	//	//p.setType2(tempStr);
+	//	getline(file, tempString, '|');
+	//	creature->setOffenseStat(std::stoi(tempString));
+	//	getline(file, tempString, '\n');
+	//	creature->setDefenseStat(std::stoi(tempString));
+	//	return file;
+	//}
 
 	//  Overload the instream pointer operator
 	friend std::ifstream& operator >> (std::ifstream &file, Pokemon *&creature)
@@ -169,7 +169,8 @@ public:
 	//  Overload the outstream pointer operator
 	friend std::ostream &operator << (std::ostream &outStream, Pokemon *&creature)
 	{
-		std::cout << creature->serialNumber << " " << creature->pokemonName << " " << creature->elementalType;
+		//std::cout << creature->serialNumber << " " << creature->pokemonName << " " << creature->elementalType;
+		std::cout << creature->pokemonName;
 		return outStream;
 	}
 
@@ -311,7 +312,7 @@ public:
 		return status;
 	}
 
-	operator int()
+	operator int ()
 	{
 		int number;
 		number = this->getSerialNumber();

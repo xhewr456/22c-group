@@ -38,7 +38,7 @@ private:
 	int hash(T data) // Temporary hash/key function
 	{
 		int number;
-		number = static_cast<int>(*data);
+		number = data;
 		number = (number - 1);
 		return number;
 		//return (((data * data) + 1) % arrayLength);
@@ -62,7 +62,7 @@ public:
 
 	void coutHashedTable()
 	{
-		for (int count = 0; count < (arrayLength-1); count++)
+		for (int count = 0; count < (arrayLength - 1); count++)
 		{
 			cout << hashedTableArray[count] << endl;
 		}
@@ -73,21 +73,11 @@ public:
 	void add(T data)
 	{
 		int hashHolder; //basically holds index after hash function
-		hashHolder = hash(data); // Call hash function (see hash)
-		//hashHolder = counter;
-		hashedTableArray[hashHolder] = data; // insert data to appropriate location.
-		//counter++;
-	}
-
-	void add(T data, int serialNumber)
-	{
-		int hashHolder; //basically holds index after hash function
 		//hashHolder = hash(data); // Call hash function (see hash)
 		hashHolder = counter;
 		hashedTableArray[hashHolder] = data; // insert data to appropriate location.
 		counter++;
 	}
-
 
 	bool removebyData(T data) //Searches for data. If found, remove. Else, nothing.
 	{

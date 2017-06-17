@@ -16,7 +16,7 @@ class DataNode
 public:
 	T value; // Node value
 	DataNode<T> *next; // Pointer to the next node
-	// Default Constructor
+					   // Default Constructor
 	DataNode()  // if no data is passed to the argument, turn this node into a size tracking node
 	{
 		value = 0;
@@ -41,7 +41,7 @@ private:
 	DataNode<T> *head;  // pointer to the first node
 	DataNode<T> *last; // Pointer to the last node
 
-	//DataNode<int> ListSize;  // one way of tracking the list's size
+					   //DataNode<int> ListSize;  // one way of tracking the list's size
 	int listCount = 0;   // another way of tracking the list's size
 
 protected:
@@ -52,7 +52,7 @@ protected:
 		//--------
 		// insert a node at the front of the list
 		DataNode<T> *newNode; // To point to a new node
-		// Allocate a new node and store newValue there.
+							  // Allocate a new node and store newValue there.
 		newNode = new DataNode<T>(newValue);
 		// point newNode->next to the old first node and make newNode the first node in the list
 		newNode->next = head;
@@ -152,7 +152,7 @@ public:
 		int listLocation = 0;
 		DataNode<T> *nodePtr; // To traverse the list
 
-		// If the list is empty, return -1
+							  // If the list is empty, return -1
 		if (!head)
 			return -1;
 
@@ -210,7 +210,7 @@ void LinkedList<T>::push_end(T newValue)
 	DataNode<T> *newNode; // To point to a new node
 	DataNode<T> *nodePtr; // To move through the list
 
-	// Allocate a new node and store newValue there.
+						  // Allocate a new node and store newValue there.
 	newNode = new DataNode<T>(newValue);
 
 	// If there are no nodes in the list
@@ -263,7 +263,7 @@ void LinkedList<T>::displayList() const
 {
 	DataNode<T> *nodePtr; // To move through the list
 
-	// Position nodePtr at the head of the list.
+						  // Position nodePtr at the head of the list.
 	nodePtr = head;
 
 	// While nodePtr points to a node, traverse
@@ -289,7 +289,7 @@ void LinkedList<T>::deleteNode(T searchValue)
 {
 	DataNode<T> *nodePtr; // To traverse the list
 	DataNode<T> *previousNode; // To point to the previous node
-	// If the list is empty, do nothing.
+							   // If the list is empty, do nothing.
 	if (!head)
 		return;
 
@@ -344,7 +344,7 @@ LinkedList<T>::~LinkedList()
 	DataNode<T> *traversalNodePtr; // To traverse the list
 	DataNode<T> *nextNode; // To point to the next node
 
-	// Position nodePtr at the head of the list.
+						   // Position nodePtr at the head of the list.
 	traversalNodePtr = head;
 
 	// While nodePtr is not at the end of the list...
