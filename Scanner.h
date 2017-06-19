@@ -2,14 +2,16 @@
 #define SCANNER_H
 #include<iostream>
 #include<stdio.h>
-#include<string.h>
+#include<string>
 #include<iostream>
 #include<windows.h>   
+#include<iomanip>
 
 static HWND  hConWnd;
-void displayPicture();
-HWND BCX_Bitmap(char*, HWND = 0, int = 0, int = 0, int = 0, int = 0, int = 0, int = 0, int = 0, int = 0);
+void displayPicture(int);
+HWND BCX_Bitmap(char*, std::string, HWND = 0, int = 0, int = 0, int = 0, int = 0, int = 0, int = 0, int = 0, int = 0);
 HWND GetConsoleWndHandle(void);
+//void displayMessage();
 
 void startScanner()
 {
@@ -28,33 +30,55 @@ void startScanner()
 	system("cls");
 	Sleep(600);
 	std::cout << "scanning...";
+	Sleep(1000);
+	system("cls");
 
-	std::cin.get();
+	displayPicture(1);
+	system("cls");
+	displayPicture(2);
 
-
-	displayPicture();
-
-	std::cout << "press enter to return to main menu...";
-	std::cin.get();
-
+	//std::cout << "press <Enter> to return to main menu...";
+	//std::cin.get();
 }
 
 
-void displayPicture()
+void displayPicture(int pictureNumber)
 {
 	hConWnd = GetConsoleWndHandle();
+	std::string message1 = "\n\tscan complete...\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\npress <Enter> to display pokemon information...";  // 36 new lines
+	std::string message2 = "text";
 	if (hConWnd)
 	{
 		// select a bitmap file you have or use one of the files in the Windows folder
 		// filename, handle, ID, ulcX, ulcY, width, height   0,0 auto-adjusts
-		BCX_Bitmap("testbitmap.bmp", hConWnd, 123, 1, 1, 0, 0);
 
-		getchar();  // wait
-					//DestroyWindow(hConWnd);
+		if (pictureNumber == 1)
+		{
+			BCX_Bitmap("test.bmp", message1, hConWnd, 123, 1, 1, 0, 0);
+		}
+		else
+		{
+			BCX_Bitmap("pikachuFull.bmp", message2, hConWnd, 123, 1, 1, 0, 0);
+		}
+
+		//getchar();  // wait
 	}
 }
+
+//void displayMessage()
+//{
+//	std::cout << "\n\tscan complete...";
+//	std::cout << "\n\n\n\n\n\n\n\n\n\n"; // 10 new lines
+//	std::cout << "\n\n\n\n\n\n\n\n\n\n"; // 10 new lines
+//	std::cout << "\n\n\n\n\n\n\n\n\n\n"; // 10 new lines
+//	std::cout << "\n\n\n\n\n\n";  // 6 new lines
+//	std::cout << "\npress<Enter> to display pokemon information...";
+//	std::cin.get();
+//}
+
+
 // draw the bitmap
-HWND BCX_Bitmap(char* Text, HWND hWnd, int id, int X, int Y, int W, int H, int Res, int Style, int Exstyle)
+HWND BCX_Bitmap(char* Text, std::string displayText, HWND hWnd, int id, int X, int Y, int W, int H, int Res, int Style, int Exstyle)
 {
 	HWND pictureFrame;
 	HBITMAP hBitmap;
@@ -72,7 +96,18 @@ HWND BCX_Bitmap(char* Text, HWND hWnd, int id, int X, int Y, int W, int H, int R
 	SendMessage(pictureFrame, (UINT)STM_SETIMAGE, (WPARAM)IMAGE_BITMAP, (LPARAM)hBitmap);
 	if (W || H) SetWindowPos(pictureFrame, HWND_TOP, X, Y, W, H, SWP_DRAWFRAME);
 
-	std::cin.get();
+	//displayMessage();
+	if (displayText == "text")
+	{
+		std::cout << " " << std::setw(8) << std::left << "setw = 8";
+		std::cout << "\npress <Enter> to return to main menu...";
+		std::cin.get();
+	}
+	else
+	{
+		std::cout << displayText;
+		std::cin.get();
+	}
 
 	DestroyWindow(pictureFrame);
 	return pictureFrame;
@@ -81,7 +116,7 @@ HWND BCX_Bitmap(char* Text, HWND hWnd, int id, int X, int Y, int W, int H, int R
 // tricking Windows just a little ...
 HWND GetConsoleWndHandle(void)
 {
-	//return 0;
+
 	HWND hConWnd;
 	OSVERSIONINFO os;
 	char szTempTitle[64], szClassName[128], szOriginalTitle[1024];

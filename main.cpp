@@ -7,7 +7,7 @@
 #include"Scanner.h"
 #include"Pokemon.h"
 //#include"LinkedList.h"
-#include"LeoLinkedList.h"
+//#include"LeoLinkedList.h"
 #include"BinarySearchTree.h"
 #include"HashTable.h"
 
@@ -151,8 +151,15 @@ int main()
 			removeThisPokemon->setSerialNumber(removeNumber);
 			bool status = pokemonBST.deleteValue(removeThisPokemon);
 			bool status2 = pokemonHashedTable.removebyData(removeThisPokemon);
-
-			cout << status << " " << status2 << endl;
+			if (!status && !status2)
+			{
+				cout << "pokemon NOT found\n";
+			}
+			else
+			{
+				cout << "pokemon number: " << removeNumber << " has been removed from the database\n";
+			}
+			//cout << status << " " << status2 << endl;
 			cout << "\npress <Enter> to return to main menu...";
 			cin.get();
 			delete removeThisPokemon;
@@ -178,8 +185,11 @@ int main()
 
 			if (status)
 			{
-				cout << "creature number: " << creatureIndexNumber << " has been found\n";
-				cout << "creature name: " << displayThisPokemon->getPokemonName() << endl;
+				cout << "pokedex number: " << creatureIndexNumber << " has been found\n";
+				cout << "pokemon name: " << displayThisPokemon->getPokemonName() << endl;
+				cout << "pokemon elemental type(s): " << displayThisPokemon->getElementalType() << endl;
+				cout << "pokemon offense stat: " << displayThisPokemon->getOffenseStat() << endl;
+				cout << "pokemon defense stat: " << displayThisPokemon->getDefenseStat() << endl;;
 			}
 			else
 			{
