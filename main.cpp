@@ -15,18 +15,14 @@ using namespace std;
 //Pokemon *getDataMemoryAddress(ifstream);
 int getIntegerInput();
 
+// This is the function that creates the pokemon objects, all other functions only use pointers
+// The only exception is the add new pokemon option in the main menu
 Pokemon *getDataMemoryAddress(ifstream &file)
-//unique_ptr<Pokemon> getDataMemoryAddress(ifstream &file)
 {
 	Pokemon *newPokemon = nullptr;
 	newPokemon = new Pokemon;
 	file >> newPokemon;
-	//cout << newPokemon->getPokemonName() << endl;
 	return newPokemon;
-
-	//unique_ptr<Pokemon> ptr(new Pokemon);
-	//file >> ptr;
-	//return ptr;
 }
 
 
@@ -54,13 +50,31 @@ int main()
 
 
 	Pokemon *tempPokemon = nullptr;
-	for (int count = 0; count < ARRAY_SIZE; count++)
+	//for (int count = 0; count < ARRAY_SIZE; count++)
+	//{
+	//	tempPokemon = getDataMemoryAddress(dataRecordsFile);
+	//	//pokemonLinkedList.push_end(tempPokemon);
+	//	pokemonBST.addValue(tempPokemon);
+	//	pokemonHashedTable.add(tempPokemon);
+	//}
+	while (!dataRecordsFile.eof())
 	{
 		tempPokemon = getDataMemoryAddress(dataRecordsFile);
 		//pokemonLinkedList.push_end(tempPokemon);
 		pokemonBST.addValue(tempPokemon);
 		pokemonHashedTable.add(tempPokemon);
+
+		//Pokemon *newPokemon = nullptr;
+		//newPokemon = new Pokemon;
+		//dataRecordsFile >> *newPokemon;
+		//cout << newPokemon << endl;
+		//pokemonBST.addValue(newPokemon);
 	}
+
+
+
+
+
 	dataRecordsFile.close();
 
 	//dataRecordsFile.open("PokeStats.txt");
@@ -81,15 +95,16 @@ int main()
 	while (choice != 9)
 	{
 		system("cls");
-		cout << "1: add new data\n";
-		cout << "2: remove data\n";
-		cout << "3: find and display data\n";
+		cout << "1: add new Pokemon (data)\n";
+		cout << "2: remove Pokemon (data)\n";
+		cout << "3: search and display a Pokemon (data)\n";
 		cout << "4: list data in the hash table\n";
-		cout << "5: list data in key sequence (inorder traverse)\n";
-		cout << "6: print indented tree\n";
-		cout << "7: effiency\n";
+		cout << "5: list data sorted by the key attribute (inorder traverse)\n";
+		cout << "6: print indented binary search tree\n";
+		cout << "7: display effiency numbers\n";
 		cout << "8: team choice (scanner)\n";
 		cout << "9: exit program\n";
+		cout << endl;
 		cout << "Enter the choice: ";
 		choice = getMenuInput(9);
 
@@ -138,7 +153,6 @@ int main()
 			bool status2 = pokemonHashedTable.removebyData(removeThisPokemon);
 
 			cout << status << " " << status2 << endl;
-			//cout << status << endl;
 			cout << "\npress <Enter> to return to main menu...";
 			cin.get();
 			delete removeThisPokemon;
@@ -148,25 +162,28 @@ int main()
 		{
 			// call to find and display data function
 			// this function will use the binary search tree to find and display the creature based on the number entered
-			// clifford will write this function
-			cout << "this is the find and display data choice\n";
 
+			system("cls");
+			cout << "this is the find and display data choice\n";
 			cout << "enter in creature number to search for: ";
 			creatureIndexNumber = getIntegerInput();
-			// send the number to the binary search tree module and print out the results of the search
-			Pokemon *tempPokemon = nullptr;
-			tempPokemon = new Pokemon;
-			tempPokemon->setSerialNumber(creatureIndexNumber);
-			//status = pokemonBST.searchForValue(tempPokemon);
-			status = pokemonBST.searchForValue(creatureIndexNumber);
-			//status = true;
-			if (status == true)
+
+			//Pokemon *tempPokemon = nullptr;
+			Pokemon *displayThisPokemon = nullptr;
+			//tempPokemon = new Pokemon;
+			//tempPokemon->setSerialNumber(creatureIndexNumber);
+
+			// send the number to the BST search function and print out the results of the search
+			status = pokemonBST.searchForValue(creatureIndexNumber, displayThisPokemon);
+
+			if (status)
 			{
 				cout << "creature number: " << creatureIndexNumber << " has been found\n";
+				cout << "creature name: " << displayThisPokemon->getPokemonName() << endl;
 			}
 			else
 			{
-				cout << "creature number: " << creatureIndexNumber << " was NOT been found\n";
+				cout << "creature number: " << creatureIndexNumber << " was NOT found\n";
 			}
 			cout << "\npress <Enter> to return to main menu...";
 			cin.get();
@@ -218,7 +235,10 @@ int main()
 		{
 			// call to effiency
 			// display the effiency of our hashed table and binary search tree
+
+			// convert the fill rate into an <int>
 			int hashedTableFillRate = ((static_cast<double>(pokemonHashedTable.getItemCount()) / static_cast<double>(pokemonHashedTable.getLength())) * 100);
+
 			system("cls");
 			cout << "this is the effiency choice\n";
 			cout << "Hashed Table fill rate is: " << hashedTableFillRate << "%";

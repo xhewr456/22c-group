@@ -213,7 +213,7 @@ protected:
 
 
 	// takes an int instead of a type T argument, and performs the same functions as the searchTree() funtion
-	DualLinkDataNode<T> *searchTree(const int &findThis, DualLinkDataNode<T> *root, bool &successBoolean)
+	DualLinkDataNode<T> *searchTree(const int &findThis, DualLinkDataNode<T> *root, bool &successBoolean, T &displayPtr)
 	{
 		// if the value was not found, return false
 		if (root == nullptr)
@@ -225,19 +225,18 @@ protected:
 		else if (*root->data == findThis)
 		{
 			successBoolean = true;
+			displayPtr = root->data;
 			return root;
 		}
 		// if the search value is less than or equal to the data stored in the node, use recursion to travel down the left branch
 		else if (*root->data > findThis)
 		{
-			//return searchTree(value, root->leftBranch);
-			return searchTree(findThis, root->leftBranch, successBoolean);
+			return searchTree(findThis, root->leftBranch, successBoolean, displayPtr);
 		}
 		// else travel down the right branch
 		else
 		{
-			//return searchTree(findThis, root->rightBranch);
-			return searchTree(findThis, root->rightBranch, successBoolean);
+			return searchTree(findThis, root->rightBranch, successBoolean, displayPtr);
 		}
 	}
 
@@ -391,7 +390,7 @@ public:
 
 
 
-	bool searchForValue(const int &pokedexNumber)
+	bool searchForValue(const int &pokedexNumber, T &displayPtr)
 	{
 		bool status;
 
@@ -401,20 +400,21 @@ public:
 		}
 		else if (*rootNode->data == pokedexNumber)
 		{
+			displayPtr = rootNode->data;
 			return true;
 		}
 		// if the search value is less than or equal to the data in rootNode, travel down the left branch
 		else if (*rootNode->data > pokedexNumber)
 		{
 			//return searchTree(value, rootNode->leftBranch);
-			searchTree(pokedexNumber, rootNode->leftBranch, status);
+			searchTree(pokedexNumber, rootNode->leftBranch, status, displayPtr);
 
 		}
 		// else, travel down the right branch
 		else
 		{
 			//return searchTree(value, rootNode->rightBranch);
-			searchTree(pokedexNumber, rootNode->rightBranch, status);
+			searchTree(pokedexNumber, rootNode->rightBranch, status, displayPtr);
 		}
 		return status;
 	}
@@ -544,30 +544,54 @@ public:
 		}
 	}
 
-	//Untested Indent Print I need to test if I incremented correnctly as well as view the output.
-	void printIndented(DualLinkDataNode<T>*start)
+	////Untested Indent Print I need to test if I incremented correnctly as well as view the output.
+	//void printIndented(DualLinkDataNode<T>*start)
+	//{
+	//	//Verify not null
+	//	if (start != nullptr)
+	//	{
+	//		//Call function on itself till we get to rightmost branch
+	//		printIndented(start->rightBranch);
+	//		//Print out number of tabs corresponding to depth of the object
+	//		//(May change it so it prints out an arrow if we have time)
+	//		for (int x = 0; x <getHeight(start); x++)
+	//		{
+	//			std::cout << "\t";
+	//		}
+	//		//Print out data (Verify ostream operator in Pokemon class to make sure out puts work)
+	//		std::cout << start->data << std::endl;
+	//		//Call function on left branch till tree is completed
+	//		printIndented(start->leftBranch);
+	//	}
+	//}
+
+
+	void printIndented2(DualLinkDataNode<T>* start, int tabs)
 	{
-		//Verify not null
 		if (start != nullptr)
 		{
-			//Call function on itself till we get to rightmost branch
-			printIndented(start->rightBranch);
-			//Print out number of tabs corresponding to depth of the object
-			//(May change it so it prints out an arrow if we have time)
-			for (int x = 0; x <getHeight(start); x++)
+			printIndented2(start->rightBranch, tabs + 1);
+			for (int x = 0; x < tabs; x++)
 			{
 				std::cout << "\t";
 			}
-			//Print out data (Verify ostream operator in Pokemon class to make sure out puts work)
 			std::cout << start->data << std::endl;
-			//Call function on left branch till tree is completed
-			printIndented(start->leftBranch);
+			printIndented2(start->leftBranch, tabs + 1);
 		}
 	}
 	void callPrintIndentedTree()
 	{
-		printIndented(rootNode);
+		printIndented2(rootNode, 0);
 	}
+
+
+
+
+
+	//void callPrintIndentedTree()
+	//{
+	//	printIndented(rootNode);
+	//}
 };
 
 #endif

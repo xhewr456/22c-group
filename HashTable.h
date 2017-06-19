@@ -4,7 +4,7 @@
 #include <string>
 #include <fstream>
 #include "Pokemon.h"
-#include "LeoLinkedList.h"
+#include "LinkedList.h"
 
 /*
 Hashtable
