@@ -19,22 +19,11 @@ void startScanner()
 	std::cout << "A wild Pokemon has appeared!\n";
 	std::cout << "press <Enter> to start scanning the creature...\n";
 	std::cin.get();
-	//Sleep(5000);
-	system("cls");
-	std::cout << "scanning...";
-	Sleep(1000);
-	system("cls");
-	Sleep(600);
-	std::cout << "scanning...";
-	Sleep(1000);
-	system("cls");
-	Sleep(600);
-	std::cout << "scanning...";
-	Sleep(1000);
-	system("cls");
+
 
 	displayPicture(1);
-	system("cls");
+	//system("cls");
+	//Sleep(5000);
 	displayPicture(2);
 
 	//std::cout << "press <Enter> to return to main menu...";
@@ -45,20 +34,20 @@ void startScanner()
 void displayPicture(int pictureNumber)
 {
 	hConWnd = GetConsoleWndHandle();
-	std::string message1 = "\n\tscan complete...\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\npress <Enter> to display pokemon information...";  // 36 new lines
+	std::string message1 = "\n\tscan complete...\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\npress <Enter> to display pokemon information...";  // 32 new lines
 	std::string message2 = "text";
 	if (hConWnd)
 	{
 		// select a bitmap file you have or use one of the files in the Windows folder
-		// filename, handle, ID, ulcX, ulcY, width, height   0,0 auto-adjusts
+		// filename, handle, ID, horizontal offset, vertical offset, [width, height (0,0 auto-adjusts)]
 
 		if (pictureNumber == 1)
 		{
-			BCX_Bitmap("test.bmp", message1, hConWnd, 123, 1, 1, 0, 0);
+			BCX_Bitmap("test.bmp", message1, hConWnd, 123, 25, 50, 475, 475);
 		}
 		else
 		{
-			BCX_Bitmap("pikachuFull.bmp", message2, hConWnd, 123, 1, 1, 0, 0);
+			BCX_Bitmap("pikachuFull.bmp", message2, hConWnd, 123, 25, 50, 475, 475);
 		}
 
 		//getchar();  // wait
@@ -99,12 +88,25 @@ HWND BCX_Bitmap(char* Text, std::string displayText, HWND hWnd, int id, int X, i
 	//displayMessage();
 	if (displayText == "text")
 	{
-		std::cout << " " << std::setw(8) << std::left << "setw = 8";
+		//std::cout << " " << std::setw(8) << std::left << "setw = 8";
+		std::cout << "\t\t\t\t\t\t Pikachu";
 		std::cout << "\npress <Enter> to return to main menu...";
 		std::cin.get();
 	}
 	else
 	{
+		system("cls");
+		std::cout << "scanning...";
+		Sleep(1000);
+		system("cls");
+		Sleep(600);
+		std::cout << "scanning...";
+		Sleep(1000);
+		system("cls");
+		Sleep(600);
+		std::cout << "scanning...";
+		Sleep(1000);
+		system("cls");
 		std::cout << displayText;
 		std::cin.get();
 	}

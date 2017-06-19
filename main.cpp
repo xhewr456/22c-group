@@ -29,11 +29,11 @@ Pokemon *getDataMemoryAddress(ifstream &file)
 int main()
 {
 
-	// this makes the console window bigger
-	HWND console = GetConsoleWindow();
-	RECT r;
-	GetWindowRect(console, &r); //stores the console's current dimensions
-	MoveWindow(console, r.left, r.top, 1000, 600, TRUE);
+	//// this makes the console window bigger
+	//HWND console = GetConsoleWindow();
+	//RECT r;
+	//GetWindowRect(console, &r); //stores the console's current dimensions
+	//MoveWindow(console, r.left, r.top, 1000, 600, TRUE);
 
 
 	// before any choices are give, load the data file and build the hash table and binary search tree

@@ -573,7 +573,7 @@ public:
 			printIndented2(start->rightBranch, tabs + 1);
 			for (int x = 0; x < tabs; x++)
 			{
-				std::cout << "\t";
+				std::cout << "\t\t";
 			}
 			std::cout << start->data << std::endl;
 			printIndented2(start->leftBranch, tabs + 1);
