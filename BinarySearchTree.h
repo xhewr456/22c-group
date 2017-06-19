@@ -17,6 +17,7 @@ int findDepth(){						- return an integer containing the depth
 #include<fstream>
 #include<iostream>
 //#include"QueueADT.h"
+#include"Pokemon.h"
 
 template <class T>
 class DualLinkDataNode
@@ -90,14 +91,14 @@ protected:
 		}
 
 		// if the value was found, send this node's address to removeNode() function and set success to true
-		else if (subTreePtr->data == findThis)
+		else if (*subTreePtr->data == *findThis)
 		{
 			subTreePtr = removeNode(subTreePtr);
 			successBoolean = true;
 			return subTreePtr;
 		}
 		// check the left branch for the value
-		else if (subTreePtr->data > findThis)
+		else if (*subTreePtr->data > *findThis)
 		{
 			tempPtr = removeValue(subTreePtr->leftBranch, findThis, successBoolean);
 			subTreePtr->leftBranch = tempPtr;
@@ -191,7 +192,7 @@ protected:
 			return nullptr;
 		}
 		// if the value is found, return true and unwind the recursion
-		else if (root->data == findThis)
+		else if (*root->data == *findThis)
 		{
 			successBoolean = true;
 			return root;
@@ -209,6 +210,39 @@ protected:
 			return searchTree(findThis, root->rightBranch, successBoolean);
 		}
 	}
+
+
+	// takes an int instead of a type T argument, and performs the same functions as the searchTree() funtion
+	DualLinkDataNode<T> *searchTree(const int &findThis, DualLinkDataNode<T> *root, bool &successBoolean)
+	{
+		// if the value was not found, return false
+		if (root == nullptr)
+		{
+			successBoolean = false;
+			return nullptr;
+		}
+		// if the value is found, return true and unwind the recursion
+		else if (*root->data == findThis)
+		{
+			successBoolean = true;
+			return root;
+		}
+		// if the search value is less than or equal to the data stored in the node, use recursion to travel down the left branch
+		else if (*root->data > findThis)
+		{
+			//return searchTree(value, root->leftBranch);
+			return searchTree(findThis, root->leftBranch, successBoolean);
+		}
+		// else travel down the right branch
+		else
+		{
+			//return searchTree(findThis, root->rightBranch);
+			return searchTree(findThis, root->rightBranch, successBoolean);
+		}
+	}
+
+
+
 
 	//  Use a recursion to travel down the left branches until a dead end is found
 	//  Then travel down the right branch until a dead is found
@@ -385,34 +419,6 @@ public:
 		return status;
 	}
 
-	DualLinkDataNode<T> *searchTree(const int &findThis, DualLinkDataNode<T> *root, bool &successBoolean)
-	{
-		// if the value was not found, return false
-		if (root == nullptr)
-		{
-			successBoolean = false;
-			return nullptr;
-		}
-		// if the value is found, return true and unwind the recursion
-		else if (*root->data == findThis)
-		{
-			successBoolean = true;
-			return root;
-		}
-		// if the search value is less than or equal to the data stored in the node, use recursion to travel down the left branch
-		else if (*root->data > findThis)
-		{
-			//return searchTree(value, root->leftBranch);
-			return searchTree(findThis, root->leftBranch, successBoolean);
-		}
-		// else travel down the right branch
-		else
-		{
-			//return searchTree(findThis, root->rightBranch);
-			return searchTree(findThis, root->rightBranch, successBoolean);
-		}
-	}
-
 
 
 
@@ -528,7 +534,7 @@ public:
 				}
 				else
 				{
-					iter = iter->rightBranch;
+					iter = iter->leftBranch;
 				}
 				//Increment depth counter
 				result++;

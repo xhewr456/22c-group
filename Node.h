@@ -4,13 +4,13 @@
 #include <iostream>
 #include <string>
 
-template <class T>
+template <class Pokemon>
 class Node
 {
 private:
-	T data;
-	Node<T>* ptrFront;
-	Node<T>* ptrRear;
+	Pokemon data;
+	Node<Pokemon>* ptrFront;
+	Node<Pokemon>* ptrRear;
 public:
 	//Constructors
 	Node()
@@ -18,19 +18,19 @@ public:
 		ptrFront = nullptr;
 		ptrRear = nullptr;
 	}
-	Node(T &D)
+	Node(Pokemon &D)
 	{
 		data = D;
 		ptrFront = nullptr;
 		ptrRear = nullptr;
 	}
-	Node(T &D, Node<T>* ptrN)
+	Node(Pokemon &D, Node<Pokemon>* ptrN)
 	{
 		data = D;
 		ptrFront = ptrN;
 		ptrRear = nullptr;
 	}
-	Node(T &D, Node<T>* ptrN, Node<T>* ptrR)
+	Node(Pokemon &D, Node<Pokemon>* ptrN, Node<Pokemon>* ptrR)
 	{
 		data = D;
 		ptrFront = ptrN;
@@ -38,30 +38,30 @@ public:
 	}
 
 	//Setters
-	void setData(T &d)
+	void setData(Pokemon &d)
 	{
 		data = d;
 	}
-	void setPtrFront(Node<T>* pF)
+	void setPtrFront(Node<Pokemon>* pF)
 	{
 		ptrFront = pF;
 	}
-	void setPtrRear(Node<T>* pR)
+	void setPtrRear(Node<Pokemon>* pR)
 	{
 		ptrRear = pR;
 	}
 
 
 	//Getters
-	T getData() const
+	Pokemon getData() const
 	{
 		return data;
 	}
-	Node<T>* getPtrFront() const
+	Node<Pokemon>* getPtrFront() const
 	{
 		return ptrFront;
 	}
-	Node<T>* getPtrRear() const
+	Node<Pokemon>* getPtrRear() const
 	{
 		return ptrRear;
 	}

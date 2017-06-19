@@ -15,10 +15,10 @@ private:
 	int defense;
 public:
 	//Constructors
-	Pokemon()
+	Pokemon() // default constructor
 	{
 		pokemonName = "unknown name";
-		serialNumber = 999;
+		serialNumber = -1;  // -1 because you can not enter anything less than 1 as a valid serial number
 		elementalType = "unknown type";
 		//type2 = "";
 		offense = 0;
@@ -159,18 +159,18 @@ public:
 
 
 
-	//// overloaded out stream operator 
-	//friend std::ostream &operator << (std::ostream &outStream, Pokemon &creature)
-	//{
-	//	std::cout << creature.serialNumber << " " << creature.pokemonName << " " << creature.elementalType;
-	//	return outStream;
-	//}
+	// overloaded out stream operator 
+	friend std::ostream &operator << (std::ostream &outStream, Pokemon &creature)
+	{
+		std::cout << creature.serialNumber << " " << creature.pokemonName << " " << creature.elementalType;
+		return outStream;
+	}
 
 	//  Overload the outstream pointer operator
 	friend std::ostream &operator << (std::ostream &outStream, Pokemon *&creature)
 	{
 		//std::cout << creature->serialNumber << " " << creature->pokemonName << " " << creature->elementalType;
-		std::cout << creature->pokemonName;
+		std::cout << "[" << creature->serialNumber << "]" << " " << creature->pokemonName;
 		return outStream;
 	}
 
@@ -312,6 +312,46 @@ public:
 		return status;
 	}
 
+	// overloaded > operator for the pokemon pointer
+	bool operator > (const Pokemon *&rightSide)
+	{
+		bool status;
+		if (this->serialNumber == rightSide->serialNumber)
+		{
+			status = true;
+		}
+		else if (this->serialNumber > rightSide->serialNumber)
+		{
+			status = true;
+		}
+		else
+		{
+			status = false;
+		}
+		return status;
+	}
+
+	// overloaded > operator for the pokemon pointer
+	bool operator > (const Pokemon &rightSide)
+	{
+		bool status;
+		if (this->serialNumber == rightSide.serialNumber)
+		{
+			status = true;
+		}
+		else if (this->serialNumber > rightSide.serialNumber)
+		{
+			status = true;
+		}
+		else
+		{
+			status = false;
+		}
+		return status;
+	}
+
+
+
 	operator int ()
 	{
 		int number;
@@ -341,6 +381,38 @@ public:
 		}
 		return status;
 	}
+
+	// overloaded conditional equal operator when using a pokemon class pointer
+	// compares the serial numbers of the two creatures, if the numbers match it will return true, else return false
+	bool operator==(const Pokemon *&rightSide)
+	{
+		bool status;
+		if (this->serialNumber == rightSide->serialNumber)
+		{
+			status = true;
+		}
+		else
+		{
+			status = false;
+		}
+		return status;
+	}
+
+	bool operator==(const Pokemon &rightSide)
+	{
+		bool status;
+		if (this->serialNumber == rightSide.serialNumber)
+		{
+			status = true;
+		}
+		else
+		{
+			status = false;
+		}
+		return status;
+	}
+
+
 
 };
 #endif
