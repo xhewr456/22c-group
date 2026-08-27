@@ -1,9 +1,9 @@
 name: Scalable Job Dispatcher
 
 on:
+  repository_dispatch:
+    types: [run-task]
   workflow_dispatch:
-  schedule:
-    - cron: '0 * * * *'
 
 concurrency:
   group: pipeline-queue-${{ github.workflow }}-${{ github.ref }}
